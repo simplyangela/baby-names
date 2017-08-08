@@ -6,9 +6,16 @@ fs.readFile('baby-names.csv', function (err,data) { // read this file and execut
         throw err 
     }
     var parsedData = data.toString('utf-8') // reads us the error in buffer to string so humans can understand 
-    fs.writeFile('baby-name-copy.csv', "Hey Juri! How is it going?", function (err){
-        if (err) {
-            console.log(err)
+    var result = parsedData.split('\n').splice(1).map(function(intel) {
+        var pieceOfData = intel.split(',')
+        return {
+            birthYear: parseInt(pieceOfData[0]),
+            gender: pieceOfData[1],
+            ethnicity: pieceOfData[2],
+            name: pieceOfData[3], 
+            count: parseInt(pieceOfData[4]), // need parseInt because it is a number and no longer a string
+            rank: parseInt(pieceOfData[5]),
         }
     })
+    console.log(result[0])
 }) // will output a huge list when you run it in gitbash 
